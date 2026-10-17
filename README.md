@@ -11,7 +11,7 @@ Este repositorio contiene la solución de la práctica *Stack MEAN* (MongoDB, Ex
 
 ---
 
-# ![alt text](image.png)  Retos resueltos
+# Retos resueltos
 
 ### * [Reto 1] Desacoplamiento del Backend y Persistencia Inversa
 * **Problema en la base:** el controlador importaba directamente el modelo de Mongoose y ejecutaba `find()`, `findByIdAndUpdate()` y `findByIdAndRemove()`, acoplando la capa web con el motor de base de datos. Además, las rutas no estaban registradas, `PUT`/`DELETE` no recibían `:id` y `findByIdAndRemove` ya no existe en Mongoose 9.
@@ -19,8 +19,7 @@ Este repositorio contiene la solución de la práctica *Stack MEAN* (MongoDB, Ex
   * Interfaz abstracta **`IEmployeeRepository`** con el contrato `findAll`, `findById`, `create`, `update` y `delete`.
   * Implementación concreta **`MongoEmployeeRepository`**, único lugar (junto con `models/` y `config/`) que conoce Mongoose.
   * **`EmployeeController`** recibe el repositorio por **inyección de dependencias** en su constructor; no contiene ningún `import mongoose`.
-  * La implementación se elige en un único punto: `index.ts` (*Composition Root*).
-
+ 
 ### * [Reto 2] Validación Perimetral DTO y Respuesta Universal
 * **Problema en la base:** no existía validación en tiempo de ejecución, cada endpoint respondía con un formato distinto y los errores del sistema se exponían al cliente.
 * **Solución implementada:**
@@ -48,8 +47,8 @@ Este repositorio contiene la solución de la práctica *Stack MEAN* (MongoDB, Ex
 
 | Operación | Método y ruta | Validación |
 |---|---|---|
-| Consulta completa / paginada | `GET /employees` · `GET /employees?page=1&limit=10` | query |
-| Consulta atómica por ID | `GET /employees/:id` | params |
+| Consulta completa | `GET /employees` · `GET /employees?page=1&limit=10` | query |
+| Consulta  ID | `GET /employees/:id` | params |
 | Registro | `POST /employees` | body estricto |
 | Actualización total | `PUT /employees/:id` | params + body completo |
 | Actualización parcial | `PATCH /employees/:id` | params + body parcial |
