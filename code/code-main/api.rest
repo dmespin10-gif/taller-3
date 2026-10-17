@@ -1,0 +1,77 @@
+### Variables
+@base = http://localhost:3000/api/v1
+@id = REEMPLAZAR_CON_UN_ID_REAL
+
+### 1. Consulta completa
+GET {{base}}/employees
+
+### 2. Consulta paginada
+GET {{base}}/employees?page=1&limit=5
+
+### 3. Registro exitoso (201)
+POST {{base}}/employees
+Content-Type: application/json
+
+{
+  "nombre": "Andrés Mendoza",
+  "cargo": "Arquitecto de Software",
+  "departamento": "Innovación",
+  "sueldo": 4500
+}
+
+### 4. Inyección inválida -> 400 con lista de campos (no llega al controlador)
+POST {{base}}/employees
+Content-Type: application/json
+
+{
+  "nombre": "An",
+  "cargo": "Developer",
+  "departamento": "TI",
+  "sueldo": -200
+}
+
+### 5. Campo no permitido (mass assignment) -> 400
+POST {{base}}/employees
+Content-Type: application/json
+
+{
+  "nombre": "Usuario Malicioso",
+  "cargo": "Dev",
+  "departamento": "TI",
+  "sueldo": 1000,
+  "isAdmin": true
+}
+
+### 6. Consulta atómica por ID
+GET {{base}}/employees/{{id}}
+
+### 7. ID con formato inválido -> 400
+GET {{base}}/employees/123
+
+### 8. Actualización total (PUT exige todos los campos)
+PUT {{base}}/employees/{{id}}
+Content-Type: application/json
+
+{
+  "nombre": "Andrés Mendoza",
+  "cargo": "Director de Arquitectura",
+  "departamento": "Innovación",
+  "sueldo": 6000
+}
+
+### 9. Actualización parcial (PATCH)
+PATCH {{base}}/employees/{{id}}
+Content-Type: application/json
+
+{
+  "sueldo": 6500
+}
+
+### 10. Eliminación
+DELETE {{base}}/employees/{{id}}
+
+### 11. JSON mal formado -> 400 controlado
+POST {{base}}/employees
+Content-Type: application/json
+
+{ nombre:
